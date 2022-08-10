@@ -1,76 +1,25 @@
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    
-    matka_location += 1
-    if (matka_location > 5) {
-        matka_location = 1
-    }
-    
-})
-function draw_matka() {
-    if (matka_location == 0) {
-        basic.showLeds(`
-            . . . . .
-                        . . . . .
-                        . . . . .
-                        . . . . .
-                        . . . . .
-        `)
-    } else if (matka_location == 1) {
-        basic.showLeds(`
-                . . . . .
-                                . . . . .
-                                . . . . .
-                                . . . . .
-                                . . # # #
-            `)
-    } else if (matka_location == 2) {
-        basic.showLeds(`
-                    . . . . .
-                                        . . . . .
-                                        . . . . .
-                                        . . . . .
-                                        . # # # .
-                `)
-    } else if (matka_location == 3) {
-        basic.showLeds(`
-                        . . . . .
-                                                . . . . .
-                                                . . . . .
-                                                . . . . .
-                                                # # # . .
-                    `)
-    } else if (matka_location == 4) {
-        basic.showLeds(`
-                            . . . . .
-                                                        . . . . .
-                                                        . . . . .
-                                                        . . . . .
-                                                        # # . . #
-                        `)
-    } else if (matka_location == 5) {
-        basic.showLeds(`
-                                . . . . .
-                                                                . . . . .
-                                                                . . . . .
-                                                                . . . . .
-                                                                # . . # #
-                            `)
-    } else {
-        basic.showNumber(matka_location)
-    }
-    
-}
-
-input.onButtonPressed(Button.B, function on_button_pressed_b() {
-    
-    matka_location += -1
-    if (matka_location < 1) {
-        matka_location = 5
-    }
-    
-})
 let matka_location = 0
-matka_location = 0
-basic.forever(function on_forever() {
+let loc = 0
+input.onButtonPressed(Button.A, function () {
+    matka_location = calculate_racket_location(-1 + matka_location)
+})
+function calculate_racket_location (loc: number) {
+    if (loc > 4) {
+        loc = 0
+    } else if (loc < 0) {
+        loc = 4
+    }
+    return loc
+}
+function draw_matka () {
+    led.plot(0 + matka_location, 4)
+    led.plot(1 + matka_location, 4)
+    led.plot(2 + matka_location, 4)
+}
+input.onButtonPressed(Button.B, function () {
+    matka_location = calculate_racket_location(1 + matka_location)
+})
+basic.forever(function () {
+    basic.clearScreen()
     draw_matka()
 })
