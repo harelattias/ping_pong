@@ -29,7 +29,8 @@ function calc_ball_loc () {
                     ball_velocity_x = 1
                     ball_velocity_y = -1
                 } else {
-                    the_end_game = 8
+                    the_end_game = 1
+                    num_of_fails += 1
                 }
             }
         }
@@ -46,19 +47,27 @@ function calc_ball_loc () {
     ball_loc_x = ball_velocity_x + ball_loc_x
     ball_loc_y = ball_velocity_y + ball_loc_y
 }
+function reset_game () {
+    ball_loc_x = 2
+    ball_loc_y = 1
+    ball_velocity_x = 1
+    ball_velocity_y = 1
+    matka_location = 1
+    the_end_game = 0
+}
 let the_end_game = 0
-let matka_location = 0
 let ball_velocity_y = 0
 let ball_velocity_x = 0
+let matka_location = 0
 let ball_loc_y = 0
 let ball_loc_x = 0
-ball_loc_x = 2
-ball_loc_y = 1
-ball_velocity_x = 1
-ball_velocity_y = 1
-matka_location = 1
+reset_game()
+let num_of_fails = 0
 basic.forever(function () {
-    if (8 == the_end_game) {
+    if (1 == the_end_game) {
+        reset_game()
+    }
+    if (3 == num_of_fails) {
         basic.showIcon(IconNames.Sad)
         music.playMelody("C5 C D E F G A B ", 500)
     } else {
@@ -67,5 +76,5 @@ basic.forever(function () {
         draw_ball()
         calc_ball_loc()
     }
-    basic.pause(1000)
+    basic.pause(500)
 })
